@@ -64,4 +64,29 @@ input:-webkit-autofill {
       }
     }
   }
+  .select {
+    flex: 1 1 100%;
+    position: relative;
+    
+    label {
+      color: $color-positive-light;
+      color: blue;
+      font-size: $font-size-xs;
+      line-height: 16px;
+      pointer-events: none;
+      position: absolute;
+      top: $spacing*2;
+      right: 0;
+      left: 0;
+      transition: all $fastest ease;
+    }
+    
+    select {
+      height: 50%;
+      background-color: transparent;
+      padding: $spacing*2 0 $spacing;
+      width: 100%;
+      font-size: $font-size-s;
+    }
+  }
 }
