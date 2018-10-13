@@ -40,11 +40,9 @@ class App extends Component {
   }
 
   handleBlur = (event) => {
-    console.log(this.state.fullname);
     const GUILTY = event.currentTarget;
     const data = GUILTY.getAttribute('name');
 
-    console.log(this.state[data]);
     if (this.state[data] !== "") {
       this.setState((state) => {
         const j = {
@@ -97,6 +95,7 @@ class App extends Component {
 
   render() {
     const { fullname, jobdescription, ponenumber, email, website, address } = this.state;
+    
 
     return (
       <div className="mainWrapper row">
@@ -156,21 +155,25 @@ class App extends Component {
                   <Select />
                 </div>
               </div>
-              <div className="formField-input active focus col col9">
+              <div className={`formField-input col col9 ${this.state.inputState.ponenumber}`}>
                 <div className="input">
                   <input type="tel" name="ponenumber"
                     onChange={this.catchData}
-                    value={this.state.phone} />
+                    value={this.state.phone}
+                    onFocus={this.handleClick}
+                    onBlur={this.handleBlur} />
                   <label htmlFor="ponenumber">Phone number</label>
                 </div>
               </div>
             </div>
             <div className="row row-separationMedium">
-              <div className="formField-input col col12">
+              <div className={`formField-input col col12 ${this.state.inputState.email}`}>
                 <div className="input">
                   <input type="email" name="email"
                     onChange={this.catchData}
-                    value={this.state.email} />
+                    value={this.state.email}
+                    onFocus={this.handleClick}
+                    onBlur={this.handleBlur} />
                   <label htmlFor="email">Email</label>
                 </div>
               </div>
@@ -186,11 +189,13 @@ class App extends Component {
               </div>
             </div>
             <div className="row row-separationMedium">
-              <div className="formField-input active col col12">
+              <div className={`formField-input col col12 ${this.state.inputState.address}`}>
                 <div className="input">
                   <input type="text" name="address"
                     onChange={this.catchData}
-                    value={this.state.address} />
+                    value={this.state.address}
+                    onFocus={this.handleClick}
+                    onBlur={this.handleBlur} />
                   <label htmlFor="address">Address</label>
                 </div>
               </div>
