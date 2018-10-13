@@ -7,19 +7,57 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "Laura Sanchez",
+      name: "",
       job: "Front End",
       phone: "",
       email: "",
       website: "www.cabify.com",
-      address: "Calle Pradillo 42. CP: 28002. Madrid"
+      address: "Calle Pradillo 42. CP: 28002. Madrid",
+      inputState: {
+        fullname: '',
+        jobdescription: '',
+        ponenumber: '',
+        email: '',
+        website: 'disabled',
+        address: ''
+      }
     }
   }
+
+  handleClick = (event) => {
+    const GUILTY = event.currentTarget;
+
+    if(GUILTY.getAttribute('name') === 'fullname') {
+      if(this.state.inputState.fullname === '') {
+        this.setState((state) => {
+          const j = {
+            ...this.state.inputState,
+            fullname: "active focus"
+          }
+          return (
+            { inputState: j }
+          )
+  })
+      }
+      else if(this.state.inputState.fullname === 'active focus' && this.state.name !== "") {
+        this.setState((state) => {
+          const j = {
+            ...this.state.inputState,
+            fullname: "active"
+          }
+          return (
+            { inputState: j }
+          )
+  })
+      }
+    }
+  }
+
 
   catchData = (event) => {
 
     const GUILTY = event.currentTarget;
-
+    
     if (GUILTY.getAttribute('name') === 'fullname') {
       this.setState({ name: GUILTY.value })
     }
@@ -39,6 +77,7 @@ class App extends Component {
       this.setState({ address: GUILTY.value })
     }
   }
+
 
   render() {
     const {name, job, phone, email, website, address} = this.state;
@@ -70,16 +109,16 @@ class App extends Component {
         <article className="builder col col6">
           <form className="form" action="">
             <div className="row">
-              <div className="formField-input active col col12">
+              <div className={`formField-input col col12 ${this.state.inputState.fullname}`}>
                 <div className="input">
-                  <input type="text" name="fullname" onChange={this.catchData} value={this.state.name}/>
+                  <input type="text" name="fullname" onChange={this.catchData} value={this.state.name} onClick={this.handleClick}/>
                   <label htmlFor="fullname">Full name</label>
                 </div>
               </div>
             </div>
             <div className="row row-separationMedium">
               {/* you probably need to add active/focus/disabled classNames */}
-              <div className="formField-input active focus col col12">
+              <div className="formField-input col col12">
                 <div className="input">
                   <input type="text" name="jobdescription" onChange={this.catchData} value={this.state.job}/>
                   <label htmlFor="jobdescription">Job description</label>
@@ -92,7 +131,7 @@ class App extends Component {
                   <Select />
                 </div>
               </div>
-              <div className="formField-input col col9">
+              <div className="formField-input active focus col col9">
                 <div className="input">
                   <input type="tel" name="ponenumber" onChange={this.catchData} value={this.state.phone} />
                   <label htmlFor="ponenumber">Phone number</label>
