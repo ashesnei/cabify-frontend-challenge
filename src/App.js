@@ -7,9 +7,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
-      job: "Front End",
-      phone: "",
+      fullname: "",
+      jobdescription: "Front End",
+      ponenumber: "",
       email: "",
       website: "www.cabify.com",
       address: "Calle Pradillo 42. CP: 28002. Madrid",
@@ -26,30 +26,44 @@ class App extends Component {
 
   handleClick = (event) => {
     const GUILTY = event.currentTarget;
+    const data = GUILTY.getAttribute('name');
 
-    if(GUILTY.getAttribute('name') === 'fullname') {
-      if(this.state.inputState.fullname === '') {
-        this.setState((state) => {
-          const j = {
-            ...this.state.inputState,
-            fullname: "active focus"
-          }
-          return (
-            { inputState: j }
-          )
-  })
+    this.setState((state) => {
+      const j = {
+        ...this.state.inputState,
+        [data]: "active focus"
       }
-      else if(this.state.inputState.fullname === 'active focus' && this.state.name !== "") {
-        this.setState((state) => {
-          const j = {
-            ...this.state.inputState,
-            fullname: "active"
-          }
-          return (
-            { inputState: j }
-          )
-  })
-      }
+      return (
+        { inputState: j }
+      )
+    })
+  }
+
+  handleBlur = (event) => {
+    console.log(this.state.fullname);
+    const GUILTY = event.currentTarget;
+
+    if (GUILTY.getAttribute('name') === 'fullname' && this.state.fullname !== "") {
+      this.setState((state) => {
+        const j = {
+          ...this.state.inputState,
+          fullname: "active"
+        }
+        return (
+          { inputState: j }
+        )
+      })
+    }
+    else if (GUILTY.getAttribute('name') === 'fullname' && this.state.fullname === "") {
+      this.setState((state) => {
+        const j = {
+          ...this.state.inputState,
+          fullname: ""
+        }
+        return (
+          { inputState: j }
+        )
+      })
     }
   }
 
@@ -57,15 +71,15 @@ class App extends Component {
   catchData = (event) => {
 
     const GUILTY = event.currentTarget;
-    
+
     if (GUILTY.getAttribute('name') === 'fullname') {
-      this.setState({ name: GUILTY.value })
+      this.setState({ fullname: GUILTY.value })
     }
     else if (GUILTY.getAttribute('name') === 'jobdescription') {
-      this.setState({ job: GUILTY.value })
+      this.setState({ jobdescription: GUILTY.value })
     }
     else if (GUILTY.getAttribute('name') === 'ponenumber') {
-      this.setState({ phone: GUILTY.value })
+      this.setState({ ponenumber: GUILTY.value })
     }
     else if (GUILTY.getAttribute('name') === 'email') {
       this.setState({ email: GUILTY.value })
@@ -80,7 +94,8 @@ class App extends Component {
 
 
   render() {
-    const {name, job, phone, email, website, address} = this.state;
+    const { fullname, jobdescription, ponenumber, email, website, address } = this.state;
+
     return (
       <div className="mainWrapper row">
         <article className="businessCard col col6">
@@ -94,11 +109,11 @@ class App extends Component {
             <div className="businessCard-cardBack" />
             <div className="businessCard-cardFront">
               <div>
-                <p className="businessCard-cardFront-title">{name}</p>
-                <p className="businessCard-cardFront-subtitle">{job}</p>
+                <p className="businessCard-cardFront-title">{fullname}</p>
+                <p className="businessCard-cardFront-subtitle">{jobdescription}</p>
               </div>
               <div className="businessCard-cardFront-bottom">
-                <p className="businessCard-icon-phone">+34 {phone} </p>
+                <p className="businessCard-icon-phone">+34 {ponenumber} </p>
                 <p className="businessCard-icon-email">{email}</p>
                 <p className="businessCard-icon-website">{website}</p>
                 <p className="businessCard-icon-address">{address}</p>
@@ -111,16 +126,24 @@ class App extends Component {
             <div className="row">
               <div className={`formField-input col col12 ${this.state.inputState.fullname}`}>
                 <div className="input">
-                  <input type="text" name="fullname" onChange={this.catchData} value={this.state.name} onClick={this.handleClick}/>
+                  <input type="text" name="fullname"
+                    onChange={this.catchData}
+                    value={this.state.name}
+                    onFocus={this.handleClick}
+                    onBlur={this.handleBlur} />
                   <label htmlFor="fullname">Full name</label>
                 </div>
               </div>
             </div>
             <div className="row row-separationMedium">
               {/* you probably need to add active/focus/disabled classNames */}
-              <div className="formField-input col col12">
+              <div className={`formField-input col col12 ${this.state.inputState.jobdescription}`}>
                 <div className="input">
-                  <input type="text" name="jobdescription" onChange={this.catchData} value={this.state.job}/>
+                  <input type="text" name="jobdescription"
+                    onChange={this.catchData}
+                    value={this.state.job}
+                    onFocus={this.handleClick}
+                    onBlur={this.handleBlur} />
                   <label htmlFor="jobdescription">Job description</label>
                 </div>
               </div>
@@ -133,7 +156,9 @@ class App extends Component {
               </div>
               <div className="formField-input active focus col col9">
                 <div className="input">
-                  <input type="tel" name="ponenumber" onChange={this.catchData} value={this.state.phone} />
+                  <input type="tel" name="ponenumber"
+                    onChange={this.catchData}
+                    value={this.state.phone} />
                   <label htmlFor="ponenumber">Phone number</label>
                 </div>
               </div>
@@ -141,7 +166,9 @@ class App extends Component {
             <div className="row row-separationMedium">
               <div className="formField-input col col12">
                 <div className="input">
-                  <input type="email" name="email" onChange={this.catchData} value={this.state.email}/>
+                  <input type="email" name="email"
+                    onChange={this.catchData}
+                    value={this.state.email} />
                   <label htmlFor="email">Email</label>
                 </div>
               </div>
@@ -149,7 +176,9 @@ class App extends Component {
             <div className="row row-separationMedium">
               <div className="formField-input active disabled col col12">
                 <div className="input">
-                  <input type="text" name="website" onChange={this.catchData} value={this.state.website}/>
+                  <input type="text" name="website"
+                    onChange={this.catchData}
+                    value={this.state.website} />
                   <label htmlFor="website">Website</label>
                 </div>
               </div>
@@ -157,7 +186,9 @@ class App extends Component {
             <div className="row row-separationMedium">
               <div className="formField-input active col col12">
                 <div className="input">
-                  <input type="text" name="address" onChange={this.catchData} value={this.state.address}/>
+                  <input type="text" name="address"
+                    onChange={this.catchData}
+                    value={this.state.address} />
                   <label htmlFor="address">Address</label>
                 </div>
               </div>
