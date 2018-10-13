@@ -8,11 +8,11 @@ class App extends Component {
     super(props);
     this.state = {
       fullname: "",
-      jobdescription: "Front End",
+      jobdescription: "",
       ponenumber: "",
       email: "",
       website: "www.cabify.com",
-      address: "Calle Pradillo 42. CP: 28002. Madrid",
+      address: "",
       inputState: {
         fullname: '',
         jobdescription: '',
@@ -42,23 +42,25 @@ class App extends Component {
   handleBlur = (event) => {
     console.log(this.state.fullname);
     const GUILTY = event.currentTarget;
+    const data = GUILTY.getAttribute('name');
 
-    if (GUILTY.getAttribute('name') === 'fullname' && this.state.fullname !== "") {
+    console.log(this.state[data]);
+    if (this.state[data] !== "") {
       this.setState((state) => {
         const j = {
           ...this.state.inputState,
-          fullname: "active"
+          [data]: "active"
         }
         return (
           { inputState: j }
         )
       })
     }
-    else if (GUILTY.getAttribute('name') === 'fullname' && this.state.fullname === "") {
+    else if (this.state[data] === "") {
       this.setState((state) => {
         const j = {
           ...this.state.inputState,
-          fullname: ""
+          [data]: ""
         }
         return (
           { inputState: j }
